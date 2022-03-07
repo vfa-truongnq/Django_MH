@@ -20,6 +20,6 @@ class MH_get_shape(viewsets.McoodelViewSet):
 #    if request.method == 'GET':
 #        mh_app = MH_tb.objects.all()
 #        return JsonResponse(MH_tb_Serializer.data, safe=False)
-#    elif request.method == 'POST':
+#   elif request.method == 'POST':
 #        mh_data = JSONParser().parse(request)
 #        MH_tb_Serializer = 

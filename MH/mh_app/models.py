@@ -4,7 +4,7 @@ from django.db import models
 class MH_tb(models.Model):
     housing_area_code = models.BigIntegerField()
     facility_key = models.CharField(max_length=150, primary_key=True)
-    shape_wkt = models.CharField(max_length=5000)
+    shape_wkt = models.GeometryField()
     facility_type = models.CharField(max_length=100)
     ordinal_number = models.IntegerField()
     structure_type = models.CharField(max_length=150)
