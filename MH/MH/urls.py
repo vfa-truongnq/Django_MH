@@ -15,12 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from mh_app import views
-from rest_framework.routers import DefaultRouter
 
-router = DefaultRouter()
-router.register('mh',views.MHViewSet)
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('',include('mh_app.urls')),
 ]

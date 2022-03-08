@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models
 
 # Create your models here.
 class MH_tb(models.Model):
@@ -14,7 +15,7 @@ class MH_tb(models.Model):
     create_by = models.CharField(max_length=150, default='some string')
     create_at = models.DateTimeField()
     update_by = models.CharField(max_length=150)
-    update_at = models.DateField()
+    update_at = models.DateTimeField()
 
     def __str__(self):
         return self.facility_key 
