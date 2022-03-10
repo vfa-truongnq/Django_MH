@@ -19,7 +19,6 @@ def api_detail_mh(request, id):
         mh_data = MH_tb.objects.get(facility_key=id)
     except MH_tb.DoesNotExist:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = MH_tb_Serializer(mh_data)
         return JsonResponse(serializer.data)
@@ -58,7 +57,10 @@ def api_delete_mh(request, id):
 
 @api_view(['POST',])
 def api_create_mh(request):
-    serializer = MH_tb_Serializer(data=request.data)
+    try:
+        serializer = MH_tb_Serializer(data=request.data)
+    except MH_tb.Exist:
+        return JsonResponse(status=status.HTTP_201_CREATED)
     if serializer.is_valid():
         serializer.save()
         return JsonResponse({
@@ -68,5 +70,14 @@ def api_create_mh(request):
             'message': 'Create a new Car unsuccessful!'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def api_get_list(request):
+    try:
+        mh_data = MH_tb.objects.all()
+    except MH_tb.DoesNotExist:
+        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = MH_tb_Serializer(mh_data, many=True)
+        return JsonResponse(serializer.data, safe = False)
 
         

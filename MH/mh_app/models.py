@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.gis.db import models
+import csv
 
 # Create your models here.
 class MH_tb(models.Model):
     housing_area_code = models.BigIntegerField()
     facility_key = models.CharField(max_length=150, primary_key=True)
-    shape_wkt = models.GeometryField()
+    shape_wkt = models.PointField()
     facility_type = models.CharField(max_length=100)
     ordinal_number = models.IntegerField()
     structure_type = models.CharField(max_length=150)
