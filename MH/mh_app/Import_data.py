@@ -1,6 +1,6 @@
 import psycopg2
 def import_data():
-    constr = "dbname='MH' user='postgres' host='localhost' password='Bekute210'"
+    constr = "dbname='MH' user='postgres' host='localhost' password='P@ssw0rld'"
     conn = psycopg2.connect(constr)
     cur = conn.cursor()
     try:
