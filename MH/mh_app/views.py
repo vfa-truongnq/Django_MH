@@ -84,7 +84,7 @@ def api_get_list(request):
 @api_view(['GET'])
 def api_get_list_for_radius(request):
     try:
-        mh_data = MH_tb.objects.get(shape_wkt = request.GET)
+        mh_data = MH_tb.objects.get(shape_wkt = request.GET.)
     except MH_tb.DoesNotExist:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
