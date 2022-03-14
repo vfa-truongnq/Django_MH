@@ -61,7 +61,7 @@ def api_create_mh(request):
     try:
         serializer = MH_tb_Serializer(data=request.data)
     except MH_tb.Exist:
-        return JsonResponse(status=status.HTTP_201_CREATED)
+        return JsonResponse(status=status.HTTP_201_CREATED) 
     if serializer.is_valid():
         serializer.save()
         return JsonResponse({
