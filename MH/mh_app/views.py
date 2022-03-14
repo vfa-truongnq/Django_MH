@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import MH_tb
 from .serializer import MH_tb_Serializer
@@ -10,9 +10,7 @@ from rest_framework.decorators import api_view
 
 
 ### Create your views here.
-#class MHViewSet(viewsets.ModelViewSet):
-#    queryset = MH_tb.objects.all()
-#    serializer_class = MH_tb_Serializer
+
 @api_view(['GET',])
 def api_detail_mh(request, id):
     try:
@@ -31,13 +29,15 @@ def api_update_mh(request, id):
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'PUT':
-        serializer = MH_tb_Serializer(mh_data, data=request.data)
-        data={}
-        if serializer.is_valid():
-            serializer.save()
-            data['Success'] = 'Update success'
-            return JsonResponse(data=data)
-        return JsonResponse(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        try:
+            serializer = MH_tb_Serializer(mh_data, data=request.data)
+            data={}
+            if serializer.is_valid():
+                serializer.save()
+                data['Success'] = 'Update success'
+                return JsonResponse(data=data)
+        except:
+            return JsonResponse(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         
 @api_view(['DELETE',])
 def api_delete_mh(request, id):
@@ -47,11 +47,12 @@ def api_delete_mh(request, id):
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        operation = mh_data.delete()
-        data={}
-        if operation:
-            data['Success'] = 'Delete success'
-        else:
+        try:
+            operation = mh_data.delete()
+            data={}
+            if operation:
+                data['Success'] = 'Delete success'
+        except:
             data['Fail'] = 'Delete failed'
         return JsonResponse(data=data)
 
@@ -74,6 +75,16 @@ def api_create_mh(request):
 def api_get_list(request):
     try:
         mh_data = MH_tb.objects.all()
+    except MH_tb.DoesNotExist:
+        return JsonResponse(status=status.HTTP_404_NOT_FOUND)
+    if request.method == 'GET':
+        serializer = MH_tb_Serializer(mh_data, many=True)
+        return JsonResponse(serializer.data, safe = False)
+
+@api_view(['GET'])
+def api_get_list_for_radius(request):
+    try:
+        mh_data = MH_tb.objects.get(shape_wkt = request.GET)
     except MH_tb.DoesNotExist:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
