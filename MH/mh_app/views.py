@@ -82,7 +82,7 @@ def api_get_list(request):
         return JsonResponse(serializer.data, safe = False)
 
 @api_view(['GET'])
-def api_get_list_for_radius(request):
+def api_get_list_radius(request):
     try:
         mh_data = MH_tb.objects.get(shape_wkt = request.GET.)
     except MH_tb.DoesNotExist:
