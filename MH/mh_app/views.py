@@ -19,7 +19,7 @@ def api_detail_mh(request, id):
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':
         serializer = MH_tb_Serializer(mh_data)
-        return JsonResponse(serializer.data)
+        return JsonResponse()
     
 @api_view(['PUT',])
 def api_update_mh(request, id):
@@ -83,12 +83,15 @@ def api_get_list(request):
 
 @api_view(['GET'])
 def api_get_list_radius(request):
+    response = JsonResponse(status=status.HTTP_200_OK)
+    data=  {"status": False, "data":[], "message": ""}
     try:
-        mh_data = MH_tb.objects.get(shape_wkt = request.GET('shape_wkt'))
-    except MH_tb.DoesNotExist:
+        latitude = float(request.GET['latitude'])
+        longtitude = float(request.GET['longtitude'])
+        radius   = float(request.GET['radius'])
+    except:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'GET':
-        serializer = MH_tb_Serializer(mh_data, many=True)
-        return JsonResponse(serializer.data, safe = False)
+    return response
+
 
         
