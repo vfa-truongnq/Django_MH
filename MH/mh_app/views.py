@@ -83,15 +83,13 @@ def api_get_list(request):
 
 @api_view(['GET'])
 def api_get_list_radius(request):
-    response = JsonResponse(status=status.HTTP_200_OK)
-    data=  {"status": False, "data":[], "message": ""}
     try:
         latitude = float(request.GET['latitude'])
         longtitude = float(request.GET['longtitude'])
-        radius   = float(request.GET['radius'])
+        radius  = float(request.GET['radius'])
     except:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
-    return response
+    return JsonResponse(print(latitude,longtitude), safe=False)
 
 
         
