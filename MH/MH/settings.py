@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
-    'mh_app'
+    'mh_app',
+    'import_export'
 ]
 
 MIDDLEWARE = [

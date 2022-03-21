@@ -42,3 +42,4 @@ class MH_tb(models.Model):
     #                 update_by = row[11],
     #                 update_at = DateTime(row[12])
     #             )
+    

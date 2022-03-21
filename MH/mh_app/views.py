@@ -89,11 +89,12 @@ def api_get_list_radius(request):
         longtitude = float(request.GET['longtitude'])
         radius  = float(request.GET['radius'])
         page = request.query_params.get('page')
+
         location = Point(latitude,longtitude,srid=4326)
         get_data = MH_tb.objects.filter(shape_wkt__distance_lte = (location, radius))
         paginator = Paginator(get_data,5)
         try:
-            get_data = paginator.page(page)
+            get_data = paginator.page(page) 
         except PageNotAnInteger:                                
             get_data = paginator.page(1)                    
         except EmptyPage:                                       
@@ -102,6 +103,8 @@ def api_get_list_radius(request):
     except:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
     return JsonResponse(serializer.data, safe=False)
+
+
 
 
         
