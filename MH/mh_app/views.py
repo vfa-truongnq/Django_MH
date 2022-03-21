@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.gis.geos import GEOSGeometry,Point
 
 from .models import MH_tb
 from .serializer import MH_tb_Serializer
@@ -87,9 +88,20 @@ def api_get_list_radius(request):
         latitude = float(request.GET['latitude'])
         longtitude = float(request.GET['longtitude'])
         radius  = float(request.GET['radius'])
+        page = request.query_params.get('page')
+        location = Point(latitude,longtitude,srid=4326)
+        get_data = MH_tb.objects.filter(shape_wkt__distance_lte = (location, radius))
+        paginator = Paginator(get_data,5)
+        try:
+            get_data = paginator.page(page)
+        except PageNotAnInteger:                                
+            get_data = paginator.page(1)                    
+        except EmptyPage:                                       
+            get_data = paginator.page(paginator.num_pages)
+        serializer = MH_tb_Serializer(get_data, many=True)
     except:
         return JsonResponse(status=status.HTTP_404_NOT_FOUND)
-    return JsonResponse(print(latitude,longtitude), safe=False)
+    return JsonResponse(serializer.data, safe=False)
 
 
         
