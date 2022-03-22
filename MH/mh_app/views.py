@@ -83,7 +83,7 @@ def api_get_list(request):
         return JsonResponse(serializer.data, safe = False)
 
 @api_view(['GET'])
-def api_get_list_radius(request):
+def api_get_list_by_radius(request):
     try:
         latitude = float(request.GET['latitude'])
         longtitude = float(request.GET['longtitude'])
